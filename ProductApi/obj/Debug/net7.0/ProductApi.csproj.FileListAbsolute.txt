@@ -34,3 +34,10 @@ C:\Users\ahmed\My project\dotnet-microservices\ProductApi\obj\Debug\net7.0\refin
 C:\Users\ahmed\My project\dotnet-microservices\ProductApi\obj\Debug\net7.0\ProductApi.pdb
 C:\Users\ahmed\My project\dotnet-microservices\ProductApi\obj\Debug\net7.0\ProductApi.genruntimeconfig.cache
 C:\Users\ahmed\My project\dotnet-microservices\ProductApi\obj\Debug\net7.0\ref\ProductApi.dll
+C:\Users\ahmed\My project\dotnet-microservices\ProductApi\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\ahmed\My project\dotnet-microservices\ProductApi\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\ahmed\My project\dotnet-microservices\ProductApi\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\ahmed\My project\dotnet-microservices\ProductApi\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\ahmed\My project\dotnet-microservices\ProductApi\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\ahmed\My project\dotnet-microservices\ProductApi\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\ahmed\My project\dotnet-microservices\ProductApi\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
