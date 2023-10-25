@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ProductApi.Data;
 using ProductApi.Models;
@@ -8,7 +6,6 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace ProductApi.Controllers
@@ -27,8 +24,11 @@ namespace ProductApi.Controllers
         private readonly ProductContext _context;
         private readonly IConfiguration _configuration;
 
-        public ProductController(ProductContext context, IConfiguration configuration)
+        private readonly ILogger<ProductController> _logger;
+
+        public ProductController(ILogger<ProductController> logger, ProductContext context, IConfiguration configuration)
         {
+            _logger = logger;
             _context = context;
             _configuration = configuration;
 
@@ -40,10 +40,30 @@ namespace ProductApi.Controllers
             }
         }
 
+        [HttpGet("products")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        {
+            try
+            {
+                return await _context.Products.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting products");
+                throw;
+            }
+        }
+
         [HttpGet]
         public IEnumerable<Product> Get()
         {
-            return _context.Products.ToList();
+            _logger.LogInformation("Getting products from the database...");
+
+            var products = _context.Products.ToList();
+
+            _logger.LogInformation($"Retrieved {products.Count} products.");
+
+            return products;
         }
 
         [HttpPost]

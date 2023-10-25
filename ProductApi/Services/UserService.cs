@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using ProductApi.Models;
 
 namespace ProductApi.Services

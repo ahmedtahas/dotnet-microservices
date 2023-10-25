@@ -1,55 +1,40 @@
-using Microsoft.EntityFrameworkCore;
-using ProductApi.Data;
-using ProductApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.HttpsPolicy;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Configure Kestrel directly on the builder
-builder.WebHost.UseKestrel(options =>
+namespace ProductApi
 {
-    options.ListenAnyIP(5264, listenOptions =>
+    public class Program
     {
-        listenOptions.UseHttps();
-    });
-});
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ProductContext>(opt => opt.UseInMemoryDatabase("ProductList"));
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
+        public static void Main(string[] args)
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty))
-        };
-    });
+            var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+            // Configure Kestrel
+            builder.WebHost.UseKestrel(options =>
+            {
+                options.ListenAnyIP(5264);
+            });
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
+            // Other configurations...
+
+            // Configure services and middleware
+            builder.Services.AddControllers(); // Add other services as needed
+
+            var app = builder.Build();
+
+            // Configure middleware
+            app.MapControllers(); // Map other endpoints as needed
+
+            app.Run();
+        }
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

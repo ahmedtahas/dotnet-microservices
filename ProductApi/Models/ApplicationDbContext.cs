@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace ProductApi.Models
 {
@@ -8,9 +7,15 @@ namespace ProductApi.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        private readonly IConfiguration _configuration;
+
+        public ApplicationDbContext(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
         }
     }
 }
