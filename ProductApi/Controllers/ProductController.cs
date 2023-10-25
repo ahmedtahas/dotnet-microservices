@@ -40,17 +40,17 @@ namespace ProductApi.Controllers
             }
         }
 
-        public ProductController(ProductContext context)
-        {
-            _context = context;
+        // public ProductController(ProductContext context)
+        // {
+        //     _context = context;
 
-            if (_context.Products.Count() == 0)
-            {
-                // Add a default product if the database is empty
-                _context.Products.Add(new Product { Name = "Product1", Description = "This is product 1", Price = 9.99m });
-                _context.SaveChanges();
-            }
-        }
+        //     if (_context.Products.Count() == 0)
+        //     {
+        //         // Add a default product if the database is empty
+        //         _context.Products.Add(new Product { Name = "Product1", Description = "This is product 1", Price = 9.99m });
+        //         _context.SaveChanges();
+        //     }
+        // }
 
         [HttpGet]
         public IEnumerable<Product> Get()
@@ -96,7 +96,7 @@ namespace ProductApi.Controllers
 
             return NoContent();
         }
-        
+
         [AllowAnonymous]
         [HttpPost("token")]
         public IActionResult GetToken([FromBody] LoginModel login)
