@@ -15,8 +15,8 @@ namespace ProductApi.Controllers
 {
     public class LoginModel
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string? Username { get; set; }
+        public string? Password { get; set; }
     }
 
     [ApiController]
@@ -39,18 +39,6 @@ namespace ProductApi.Controllers
                 _context.SaveChanges();
             }
         }
-
-        // public ProductController(ProductContext context)
-        // {
-        //     _context = context;
-
-        //     if (_context.Products.Count() == 0)
-        //     {
-        //         // Add a default product if the database is empty
-        //         _context.Products.Add(new Product { Name = "Product1", Description = "This is product 1", Price = 9.99m });
-        //         _context.SaveChanges();
-        //     }
-        // }
 
         [HttpGet]
         public IEnumerable<Product> Get()
@@ -110,7 +98,8 @@ namespace ProductApi.Controllers
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                string jwtKey = _configuration["Jwt:Key"] ?? throw new ArgumentNullException("Jwt:Key", "Jwt:Key is not found in the configuration.");
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
